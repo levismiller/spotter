@@ -22,6 +22,7 @@ class CameraPosition(object):
         print(2)
         await self.__move_servo(self.tilt_servo_pin, tilt_dc)
         print(3)
+        GPIO.cleanup()
 
 
     async def moveto(self, lat, lng, alt):
