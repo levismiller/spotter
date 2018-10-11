@@ -30,6 +30,13 @@ class CameraPosition(object):
         sleep(0.3)
         pwm.stop()
 
+        # pwm = GPIO.PWM(pin, self.servo_hertz)
+        # pwm.start(8)
+        # dutyCycle = angle / 18. + 3.
+        # pwm.ChangeDutyCycle(dutyCycle)
+        # sleep(0.3)
+        # pwm.stop()
+
     def __calc_horz_angle(self, lat, lng):
         pass
 

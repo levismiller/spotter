@@ -11,7 +11,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
-pan = 23
+pan = 13
 tilt = 11
 
 GPIO.setup(tilt, GPIO.OUT)  # white => TILT
