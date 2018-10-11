@@ -6,14 +6,17 @@ from app.position import CameraPosition
 
 app = Sanic()
 app.static('/static', './static')
+import RPi.GPIO as GPIO
 
-app.on_cleanup.append(cleanup)
 
 cameraPosition = CameraPosition()
 
 
 def cleanup():
-    print('yes')
+    print('cleanup called')
+    GPIO.cleanup()
+
+app.on_cleanup.append(cleanup)
 
 @app.route('/', methods=['GET'])
 async def home(req):
