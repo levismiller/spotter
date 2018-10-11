@@ -7,8 +7,13 @@ from app.position import CameraPosition
 app = Sanic()
 app.static('/static', './static')
 
+app.on_cleanup.append(cleanup)
+
 cameraPosition = CameraPosition()
 
+
+def cleanup():
+    print('yes')
 
 @app.route('/', methods=['GET'])
 async def home(req):
