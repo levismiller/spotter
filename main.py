@@ -50,7 +50,7 @@ tilt = 11
 GPIO.setup(tilt, GPIO.OUT)  # white => TILT
 GPIO.setup(pan, GPIO.OUT)  # gray ==> PAN
 
-def setServoAngle(servo, angle):
+async def setServoAngle(servo, angle):
     # assert angle >= 30 and angle <= 150
     pwm = GPIO.PWM(servo, 50)
     pwm.start(8)
@@ -62,8 +62,8 @@ def setServoAngle(servo, angle):
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
-    setServoAngle(13, int(pan))  # 30 ==> 90 (middle point) ==> 150
-    setServoAngle(11, int(tilt))  # 30 ==> 90 (middle point) ==> 150
+    await setServoAngle(13, int(pan))  # 30 ==> 90 (middle point) ==> 150
+    await setServoAngle(11, int(tilt))  # 30 ==> 90 (middle point) ==> 150
 
     # cam = Camera()
     # cam.configure()
