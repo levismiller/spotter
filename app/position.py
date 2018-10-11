@@ -9,8 +9,8 @@ class CameraPosition(object):
         self.servo_hertz = 50
         self.camera = None
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.pan_servo_pin, GPIO.out)
-        GPIO.setup(self.tilt_servo_pin, GPIO.out)
+        GPIO.setup(self.pan_servo_pin, GPIO.OUT)
+        GPIO.setup(self.tilt_servo_pin, GPIO.OUT)
 
     def moveto_angle(self, pan, tilt):
         pan_duty_cycle = self.__calc_duty_cycle(self.camera.pan_range, pan)
