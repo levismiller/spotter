@@ -3,15 +3,26 @@ import RPi.GPIO as GPIO
 
 class CameraPosition(object):
 
-    def __init__(self):
+    def __init__(self, GPIO):
         self.pan_servo_pin = 13
         self.tilt_servo_pin = 11
         self.servo_hertz = 50
         self.pulse = 20
         self.camera = None
+        self.GPIO = GPIO
         # GPIO.setmode(GPIO.BOARD)
         # GPIO.setup(self.pan_servo_pin, GPIO.OUT)
         # GPIO.setup(self.tilt_servo_pin, GPIO.OUT)
+
+    def setServoAngle(self, servo, angle):
+        # assert angle >= 30 and angle <= 150
+        pwm = self.GPIO.PWM(servo, 50)
+        pwm.start(8)
+        dutyCycle = angle / 18. + 3.
+        print('dutyCycle', dutyCycle)
+        pwm.ChangeDutyCycle(dutyCycle)
+        sleep(0.3)
+        pwm.stop()
 
     async def moveto_angle(self, pan, tilt):
         GPIO.setmode(GPIO.BOARD)
