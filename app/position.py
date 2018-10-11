@@ -47,7 +47,8 @@ class CameraPosition(object):
         pass
 
     def __calc_duty_cycle(self, servo_range, angle):
-        dc = float(angle) / self.pulse + 2.5
+        # dc = float(angle) / self.pulse + 2.5
+        dc = angle / 18. + 3.
         if dc < servo_range[0]:
             return servo_range[0]
         if dc > servo_range[-1]:
