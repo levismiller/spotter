@@ -10,7 +10,12 @@ class Camera(object):
         self.zoom = 0
         self.active = False
 
-    def configure(self, pan_range, tilt_range, lat=0, lng=0, alt=0, host=''):
+    def configure(self, pan_range=None, tilt_range=None, lat=0, lng=0, alt=0, host=''):
+        if not pan_range:
+            pan_range = [4,11]
+        if not tilt_range:
+            tilt_range = [3,6]
+
         self.pan_range = pan_range
         self.tilt_range = tilt_range
         self.lat = lat

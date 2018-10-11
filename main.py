@@ -18,20 +18,20 @@ async def home(req):
         return json({'msg': 'No camera configured'})
 
 
-@app.route('/setup/', methods=['POST'])
+@app.route('/setup/', methods=['GET'])
 async def setup(req):
     if not cameraPosition.camera:
-        body = await req.json()
-        pan = body.get('pan_range', [4, 11])
-        tilt = body.get('tilt_range', [3, 6])
-        lat = body.get('lat', 0)
-        lng = body.get('lng', 0)
-        alt = body.get('alt', 0)
-        host = body.get('host', None)
-
-        if host:
+    #     body = await req.json()
+    #     pan = body.get('pan_range', [4, 11])
+    #     tilt = body.get('tilt_range', [3, 6])
+    #     lat = body.get('lat', 0)
+    #     lng = body.get('lng', 0)
+    #     alt = body.get('alt', 0)
+    #     host = body.get('host', None)
+    #
+    #     if host:
             cam = Camera()
-            cam.configure(pan, tilt, lat, lng, alt, host)
+            cam.configure()
             cameraPosition.camera = cam
 
     if cameraPosition.camera:
