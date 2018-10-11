@@ -1,5 +1,5 @@
 from asyncio import sleep
-
+import RPi.GPIO as GPIO
 
 class CameraPosition(object):
 
@@ -8,6 +8,7 @@ class CameraPosition(object):
         self.tilt_servo_pin = 11
         self.servo_hertz = 50
         self.camera = None
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.pan_servo_pin, GPIO.out)
         GPIO.setup(self.tilt_servo_pin, GPIO.out)
 
