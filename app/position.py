@@ -17,18 +17,28 @@ class CameraPosition(object):
         pan_dc = await self.__calc_duty_cycle(self.camera.pan_range, pan)
         tilt_dc = await self.__calc_duty_cycle(self.camera.tilt_range, tilt)
         print(pan, tilt, 'pan_dc', pan_dc, 'tilt_dc', tilt_dc)
+        print(1)
         await self.__move_servo(self.pan_servo_pin, pan_dc)
+        print(2)
         await self.__move_servo(self.tilt_servo_pin, tilt_dc)
+        print(3)
+
 
     async def moveto(self, lat, lng, alt):
         pass
 
     async def __move_servo(self, pin, duty_cycle):
+        print('a')
         pwm = GPIO.PWM(pin, self.servo_hertz)
+        print('b')
         pwm.start(0)
+        print('c')
         pwm.ChangeDutyCycle(duty_cycle)
+        print('d')
         sleep(0.3)
+        print('e')
         pwm.stop()
+        print('f')
 
         # pwm = GPIO.PWM(pin, self.servo_hertz)
         # pwm.start(8)
