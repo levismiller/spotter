@@ -42,4 +42,4 @@ class CameraPosition(object):
         pass
 
     def __calc_duty_cycle(self, servo_range, angle):
-        return (((servo_range[:1] - servo_range[0]) * angle) / 180) + servo_range[0]
+        return (((servo_range[-1] - servo_range[0]) * angle) / 180) + servo_range[0]
