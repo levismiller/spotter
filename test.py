@@ -23,6 +23,7 @@ def setServoAngle(servo, angle):
     pwm = GPIO.PWM(servo, 50)
     pwm.start(8)
     dutyCycle = angle / 18. + 3.
+    print('dutyCycle', dutyCycle)
     pwm.ChangeDutyCycle(dutyCycle)
     sleep(0.3)
     pwm.stop()
