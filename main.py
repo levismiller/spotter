@@ -54,7 +54,7 @@ async def goto_angle(req, pan, tilt):
     GPIO.setup(pan, GPIO.OUT)  # gray ==> PAN
 
     angle = pan
-    assert angle >= 30 and angle <= 150
+    # assert angle >= 30 and angle <= 150
     pwm = GPIO.PWM(13, 50)
     pwm.start(8)
     dutyCycle = angle / 18. + 3.
