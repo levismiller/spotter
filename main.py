@@ -42,20 +42,24 @@ async def setup(req):
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
-    if cameraPosition.camera and cameraPosition.camera.active:
-        cameraPosition.moveto_angle(pan, tilt)
-        return json({
-            'success': True,
-            'lat': 0,
-            'lng': 0,
-            'alt': 0,
-            'pan': 0,
-            'tilt': 0,
-            'range': 0,
-            'zoom': 0
-        })
-    else:
-        return json({'msg': 'No camera configured'})
+    cam = Camera()
+    cam.configure()
+    cameraPosition.camera = cam
+
+    # if cameraPosition.camera and cameraPosition.camera.active:
+    cameraPosition.moveto_angle(pan, tilt)
+    return json({
+        'success': True,
+        'lat': 0,
+        'lng': 0,
+        'alt': 0,
+        'pan': 0,
+        'tilt': 0,
+        'range': 0,
+        'zoom': 0
+    })
+    # else:
+    #     return json({'msg': 'No camera configured'})
 
 
 @app.route('/goto/<lat>/<lng>/<alt>', methods=['GET'])
