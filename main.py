@@ -38,30 +38,32 @@ async def setup(req):
     else:
         return json({'msg': 'No camera configured'})
 
+from time import sleep
+import RPi.GPIO as GPIO
 
-@app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
-async def goto_angle(req, pan, tilt):
-    from time import sleep
-    import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setwarnings(False)
+pan = 13
+tilt = 11
 
-    pan = 13
-    tilt = 11
+GPIO.setup(tilt, GPIO.OUT)  # white => TILT
+GPIO.setup(pan, GPIO.OUT)  # gray ==> PAN
 
-    GPIO.setup(tilt, GPIO.OUT)  # white => TILT
-    GPIO.setup(pan, GPIO.OUT)  # gray ==> PAN
-
-    angle = pan
+def setServoAngle(servo, angle):
     # assert angle >= 30 and angle <= 150
-    pwm = GPIO.PWM(13, 50)
+    pwm = GPIO.PWM(servo, 50)
     pwm.start(8)
     dutyCycle = angle / 18. + 3.
     print('dutyCycle', dutyCycle)
     pwm.ChangeDutyCycle(dutyCycle)
     sleep(0.3)
     pwm.stop()
+
+@app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
+async def goto_angle(req, pan, tilt):
+    setServoAngle(13, int(pan))  # 30 ==> 90 (middle point) ==> 150
+    setServoAngle(11, int(tilt))  # 30 ==> 90 (middle point) ==> 150
 
     # cam = Camera()
     # cam.configure()
