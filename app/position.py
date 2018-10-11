@@ -1,6 +1,17 @@
 from asyncio import sleep
 import RPi.GPIO as GPIO
 
+
+def setServoAngle(servo, angle):
+    # assert angle >= 30 and angle <= 150
+    pwm = GPIO.PWM(servo, 50)
+    pwm.start(8)
+    dutyCycle = angle / 18. + 3.
+    print('dutyCycle', dutyCycle)
+    pwm.ChangeDutyCycle(dutyCycle)
+    sleep(0.3)
+    pwm.stop()
+
 class CameraPosition(object):
 
     def __init__(self):
@@ -12,16 +23,6 @@ class CameraPosition(object):
         # GPIO.setmode(GPIO.BOARD)
         # GPIO.setup(self.pan_servo_pin, GPIO.OUT)
         # GPIO.setup(self.tilt_servo_pin, GPIO.OUT)
-
-    def setServoAngle(self, servo, angle):
-        # assert angle >= 30 and angle <= 150
-        pwm = GPIO.PWM(servo, 50)
-        pwm.start(8)
-        dutyCycle = angle / 18. + 3.
-        print('dutyCycle', dutyCycle)
-        pwm.ChangeDutyCycle(dutyCycle)
-        sleep(0.3)
-        pwm.stop()
 
     async def moveto_angle(self, pan, tilt):
         GPIO.setmode(GPIO.BOARD)
