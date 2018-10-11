@@ -9,11 +9,17 @@ class CameraPosition(object):
         self.servo_hertz = 50
         self.pulse = 20
         self.camera = None
+        # GPIO.setmode(GPIO.BOARD)
+        # GPIO.setup(self.pan_servo_pin, GPIO.OUT)
+        # GPIO.setup(self.tilt_servo_pin, GPIO.OUT)
+
+    async def moveto_angle(self, pan, tilt):
         GPIO.setmode(GPIO.BOARD)
+        GPIO.setwarnings(False)
+
         GPIO.setup(self.pan_servo_pin, GPIO.OUT)
         GPIO.setup(self.tilt_servo_pin, GPIO.OUT)
 
-    async def moveto_angle(self, pan, tilt):
         pan_dc = await self.__calc_duty_cycle(self.camera.pan_range, pan)
         tilt_dc = await self.__calc_duty_cycle(self.camera.tilt_range, tilt)
         print(pan, tilt, 'pan_dc', pan_dc, 'tilt_dc', tilt_dc)
