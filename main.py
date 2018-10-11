@@ -41,12 +41,34 @@ async def setup(req):
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
-    cam = Camera()
-    cam.configure()
-    cameraPosition.camera = cam
+    from time import sleep
+    import RPi.GPIO as GPIO
+
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+
+    pan = 13
+    tilt = 11
+
+    GPIO.setup(tilt, GPIO.OUT)  # white => TILT
+    GPIO.setup(pan, GPIO.OUT)  # gray ==> PAN
+
+    angle = pan
+    assert angle >= 30 and angle <= 150
+    pwm = GPIO.PWM(13, 50)
+    pwm.start(8)
+    dutyCycle = angle / 18. + 3.
+    print('dutyCycle', dutyCycle)
+    pwm.ChangeDutyCycle(dutyCycle)
+    sleep(0.3)
+    pwm.stop()
+
+    # cam = Camera()
+    # cam.configure()
+    # cameraPosition.camera = cam
 
     # if cameraPosition.camera and cameraPosition.camera.active:
-    await cameraPosition.moveto_angle(pan, tilt)
+    # await cameraPosition.moveto_angle(pan, tilt)
     return json({
         'success': True,
         'lat': 0,
