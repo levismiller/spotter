@@ -41,13 +41,13 @@ async def setup(req):
 
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
-def goto_angle(req, pan, tilt):
+async def goto_angle(req, pan, tilt):
     cam = Camera()
     cam.configure()
     cameraPosition.camera = cam
 
     # if cameraPosition.camera and cameraPosition.camera.active:
-    cameraPosition.moveto_angle(pan, tilt)
+    await cameraPosition.moveto_angle(pan, tilt)
     return json({
         'success': True,
         'lat': 0,

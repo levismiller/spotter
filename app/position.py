@@ -13,17 +13,17 @@ class CameraPosition(object):
         GPIO.setup(self.pan_servo_pin, GPIO.OUT)
         GPIO.setup(self.tilt_servo_pin, GPIO.OUT)
 
-    def moveto_angle(self, pan, tilt):
-        pan_dc = self.__calc_duty_cycle(self.camera.pan_range, pan)
-        tilt_dc = self.__calc_duty_cycle(self.camera.tilt_range, tilt)
+    async def moveto_angle(self, pan, tilt):
+        pan_dc = await self.__calc_duty_cycle(self.camera.pan_range, pan)
+        tilt_dc = await self.__calc_duty_cycle(self.camera.tilt_range, tilt)
         print(pan, tilt, 'pan_dc', pan_dc, 'tilt_dc', tilt_dc)
-        self.__move_servo(self.pan_servo_pin, pan_dc)
-        self.__move_servo(self.tilt_servo_pin, tilt_dc)
+        await self.__move_servo(self.pan_servo_pin, pan_dc)
+        await self.__move_servo(self.tilt_servo_pin, tilt_dc)
 
-    def moveto(self, lat, lng, alt):
+    async def moveto(self, lat, lng, alt):
         pass
 
-    def __move_servo(self, pin, duty_cycle):
+    async def __move_servo(self, pin, duty_cycle):
         pwm = GPIO.PWM(pin, self.servo_hertz)
         pwm.start(0)
         pwm.ChangeDutyCycle(duty_cycle)
@@ -37,16 +37,16 @@ class CameraPosition(object):
         # sleep(0.3)
         # pwm.stop()
 
-    def __calc_horz_angle(self, lat, lng):
+    async def __calc_horz_angle(self, lat, lng):
         pass
 
-    def __calc_vert_angle(self, distance, alt):
+    async def __calc_vert_angle(self, distance, alt):
         pass
 
-    def __calc_distance(self, lat, lng, alt):
+    async def __calc_distance(self, lat, lng, alt):
         pass
 
-    def __calc_duty_cycle(self, servo_range, angle):
+    async def __calc_duty_cycle(self, servo_range, angle):
         # dc = float(angle) / self.pulse + 2.5
         dc = float(angle) / 18. + 3.
         if dc < servo_range[0]:
