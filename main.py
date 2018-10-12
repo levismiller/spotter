@@ -24,7 +24,7 @@ app.static('/static', './static')
 
 
 def set_servo_angle(servo, angle):
-    pass
+    print(int(servo['pin']))
     # pwm = GPIO.PWM(servo['pin'], 50)
     # pwm.start(8)
     # dc = angle / 18. + 3.
