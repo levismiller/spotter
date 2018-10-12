@@ -24,17 +24,17 @@ app.static('/static', './static')
 
 
 def set_servo_angle(servo, angle):
-    pwm = GPIO.PWM(servo['pin'], 50)
-    pwm.start(8)
-    dc = angle / 18. + 3.
-    if dc < servo['range'][0]:
-        return servo['range'][0]
-    if dc > servo['range'][-1]:
-        return servo['range'][-1]
-    print(dc)
+    pass
+    # pwm = GPIO.PWM(servo['pin'], 50)
+    # pwm.start(8)
+    # dc = angle / 18. + 3.
+    # if dc < servo['range'][0]:
+    #     return servo['range'][0]
+    # if dc > servo['range'][-1]:
+    #     return servo['range'][-1]
     # pwm.ChangeDutyCycle(dc)
-    sleep(0.3)
-    pwm.stop()
+    # sleep(0.3)
+    # pwm.stop()
 
 
 def move_to(lat, lng, alt):
