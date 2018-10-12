@@ -13,11 +13,11 @@ GPIO.setwarnings(False)
 servos = {
     'pan': {
         'pin': 13,
-        'range': [4, 11]
+        'range': [30, 150]
     },
     'tilt': {
         'pin': 11,
-        'range': [3, 6]
+        'range': [30, 150]
     }
 }
 
@@ -26,6 +26,11 @@ GPIO.setup(servos['pan']['pin'], GPIO.OUT)
 
 
 def set_servo_angle(GPIO, servo, angle):
+    if angle < servo['range'][0]:
+        angle = servo['range'][0]
+    if angle > servo['range'][-1]:
+        angle = servo['range'][-1]
+        
     pwm = GPIO.PWM(servo['pin'], 50)
     pwm.start(8)
     dc = angle / 18. + 3.
