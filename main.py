@@ -60,7 +60,7 @@ async def home(req):
 @app.route('/ptz/<pan>/<tilt>/<zoom>', methods=['GET'])
 async def ptz(req, pan, tilt, zoom):
     pan = set_servo_angle(GPIO, servos['pan'], float(pan))
-    tilt = set_servo_angle(GPIO, servos['tilt'], float(tilt))
+    # tilt = set_servo_angle(GPIO, servos['tilt'], float(tilt))
     return json({
         'success': True,
         'pan': pan,
