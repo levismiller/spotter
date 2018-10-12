@@ -20,13 +20,11 @@ app = Sanic()
 app.static('/static', './static')
 
 
-def setServoAngle(GPIO, servo, angle):
-    # assert angle >= 30 and angle <= 150
+def set_servo_angle(GPIO, servo, angle):
     pwm = GPIO.PWM(servo, 50)
     pwm.start(8)
-    dutyCycle = angle / 18. + 3.
-    print('dutyCycle', dutyCycle)
-    pwm.ChangeDutyCycle(dutyCycle)
+    dc = angle / 18. + 3.
+    pwm.ChangeDutyCycle(dc)
     sleep(0.3)
     pwm.stop()
 
@@ -103,8 +101,8 @@ async def setup(req):
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
-    setServoAngle(GPIO, 13, int(pan))  # 30 ==> 90 (middle point) ==> 150
-    setServoAngle(GPIO, 11, int(tilt))  # 30 ==> 90 (middle point) ==> 150
+    set_servo_angle(GPIO, 13, int(pan))
+    set_servo_angle(GPIO, 11, int(tilt))
 
     # cam = Camera()
     # cam.configure()
