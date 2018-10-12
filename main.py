@@ -7,8 +7,6 @@ from app.camera import Camera
 from time import sleep
 import RPi.GPIO as GPIO
 
-from app.position import CameraPosition
-
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
@@ -22,42 +20,42 @@ app = Sanic()
 app.static('/static', './static')
 
 
-# class CameraPosition(object):
-#
-#     def __init__(self, GPIO):
-#         self.GPIO = GPIO
-#         self.camera = None
-#
-#     def setServoAngle(self, servo, angle):
-#         # assert angle >= 30 and angle <= 150
-#         pwm = self.GPIO.PWM(servo, 50)
-#         pwm.start(8)
-#         dutyCycle = angle / 18. + 3.
-#         print('dutyCycle', dutyCycle)
-#         pwm.ChangeDutyCycle(dutyCycle)
-#         sleep(0.3)
-#         pwm.stop()
-#
-#     async def moveto_angle(self, pan, tilt):
-#         pass
-#
-#     async def moveto(self, lat, lng, alt):
-#         pass
-#
-#     async def __move_servo(self, pin, duty_cycle):
-#         pass
-#
-#     async def __calc_horz_angle(self, lat, lng):
-#         pass
-#
-#     async def __calc_vert_angle(self, distance, alt):
-#         pass
-#
-#     async def __calc_distance(self, lat, lng, alt):
-#         pass
-#
-#     async def __calc_duty_cycle(self, servo_range, angle):
-#         pass
+class CameraPosition(object):
+
+    def __init__(self, GPIO):
+        self.GPIO = GPIO
+        self.camera = None
+
+    def setServoAngle(self, servo, angle):
+        # assert angle >= 30 and angle <= 150
+        pwm = self.GPIO.PWM(servo, 50)
+        pwm.start(8)
+        dutyCycle = angle / 18. + 3.
+        print('dutyCycle', dutyCycle)
+        pwm.ChangeDutyCycle(dutyCycle)
+        sleep(0.3)
+        pwm.stop()
+
+    async def moveto_angle(self, pan, tilt):
+        pass
+
+    async def moveto(self, lat, lng, alt):
+        pass
+
+    async def __move_servo(self, pin, duty_cycle):
+        pass
+
+    async def __calc_horz_angle(self, lat, lng):
+        pass
+
+    async def __calc_vert_angle(self, distance, alt):
+        pass
+
+    async def __calc_distance(self, lat, lng, alt):
+        pass
+
+    async def __calc_duty_cycle(self, servo_range, angle):
+        pass
 
 
 cameraPosition = CameraPosition(GPIO)
