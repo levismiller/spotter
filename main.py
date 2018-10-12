@@ -26,13 +26,15 @@ class CameraPosition(object):
         self.GPIO = GPIO
         self.camera = None
 
-    def setServoAngle(self, servo, angle):
-        # assert angle >= 30 and angle <= 150
+    def set_servo_angle(self, servo, angle):
         pwm = self.GPIO.PWM(servo, 50)
         pwm.start(8)
-        dutyCycle = angle / 18. + 3.
-        print('dutyCycle', dutyCycle)
-        pwm.ChangeDutyCycle(dutyCycle)
+        dc = angle / 18. + 3.
+        if dc < self.camera.servo_range[0]:
+            return self.camera.servo_range[0]
+        if dc > self.camera.servo_range[-1]:
+            return self.camera.servo_range[-1]
+        pwm.ChangeDutyCycle(dc)
         sleep(0.3)
         pwm.stop()
 
@@ -90,40 +92,28 @@ async def setup(req):
     else:
         return json({'msg': 'No camera configured'})
 
-
-# def setServoAngle(servo, angle):
-#     # assert angle >= 30 and angle <= 150
-#     pwm = GPIO.PWM(servo, 50)
-#     pwm.start(8)
-#     dutyCycle = angle / 18. + 3.
-#     print('dutyCycle', dutyCycle)
-#     pwm.ChangeDutyCycle(dutyCycle)
-#     sleep(0.3)
-#     pwm.stop()
-
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
-    cameraPosition.setServoAngle(13, int(pan))  # 30 ==> 90 (middle point) ==> 150
-    cameraPosition.setServoAngle(11, int(tilt))  # 30 ==> 90 (middle point) ==> 150
+    if cameraPosition.camera and cameraPosition.camera.active:
+        cam = Camera()
+        cam.configure()
+        cameraPosition.camera = cam
 
-    # cam = Camera()
-    # cam.configure()
-    # cameraPosition.camera = cam
+        cameraPosition.set_servo_angle(13, int(pan))
+        cameraPosition.set_servo_angle(11, int(tilt))
 
-    # if cameraPosition.camera and cameraPosition.camera.active:
-    # await cameraPosition.moveto_angle(pan, tilt)
-    return json({
-        'success': True,
-        'lat': 0,
-        'lng': 0,
-        'alt': 0,
-        'pan': 0,
-        'tilt': 0,
-        'range': 0,
-        'zoom': 0
-    })
-    # else:
-    #     return json({'msg': 'No camera configured'})
+        return json({
+            'success': True,
+            'lat': 0,
+            'lng': 0,
+            'alt': 0,
+            'pan': 0,
+            'tilt': 0,
+            'range': 0,
+            'zoom': 0
+        })
+    else:
+        return json({'msg': 'No camera configured'})
 
 
 @app.route('/goto/<lat>/<lng>/<alt>', methods=['GET'])
