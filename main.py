@@ -1,3 +1,5 @@
+import asyncio
+
 from sanic import Sanic
 from sanic.response import json
 
@@ -59,8 +61,12 @@ async def home(req):
 
 @app.route('/ptz/<pan>/<tilt>/<zoom>', methods=['GET'])
 async def ptz(req, pan, tilt, zoom):
-    pan = set_servo_angle(GPIO, servos['pan'], float(pan))
-    tilt = set_servo_angle(GPIO, servos['tilt'], float(tilt))
+
+    results = await asyncio.gather(
+        set_servo_angle(GPIO, servos['pan'], float(pan)),
+        set_servo_angle(GPIO, servos['tilt'], float(tilt))
+    )
+    print(results)
     return json({
         'success': True,
         'pan': pan,
