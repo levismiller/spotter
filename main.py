@@ -24,7 +24,7 @@ app.static('/static', './static')
 
 
 def set_servo_angle(servo, angle):
-    pwm = GPIO.PWM(servo, 50)
+    pwm = GPIO.PWM(servo['pin'], 50)
     pwm.start(8)
     dc = angle / 18. + 3.
     if dc < servo['range'][0]:
@@ -54,8 +54,8 @@ def __calc_distance(lat, lng, alt):
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
-    set_servo_angle(pan_servo['pin'], int(pan))
-    set_servo_angle(tilt_servo['pin'], int(tilt))
+    set_servo_angle(pan_servo, int(pan))
+    set_servo_angle(tilt_servo, int(tilt))
 
     return json({
         'success': True,
