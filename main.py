@@ -4,11 +4,11 @@ from sanic.response import json
 from time import sleep
 import RPi.GPIO as GPIO
 
+app = Sanic()
+app.static('/static', './static')
+
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-
-pan = 13
-tilt = 11
 
 servos = {
     'pan': {
@@ -21,11 +21,8 @@ servos = {
     }
 }
 
-GPIO.setup(tilt, GPIO.OUT)
-GPIO.setup(pan, GPIO.OUT)
-
-app = Sanic()
-app.static('/static', './static')
+GPIO.setup(servos['tilt']['pin'], GPIO.OUT)
+GPIO.setup(servos['pan']['pin'], GPIO.OUT)
 
 
 def set_servo_angle(GPIO, servo, angle):
