@@ -13,7 +13,7 @@ GPIO.setwarnings(False)
 servos = {
     'pan': {
         'pin': 13,
-        'range': [30, 150]
+        'range': [10, 170]
     },
     'tilt': {
         'pin': 11,
