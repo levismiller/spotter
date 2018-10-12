@@ -35,7 +35,9 @@ def set_servo_angle(GPIO, servo, angle):
     pwm.start(8)
     dc = angle / 18. + 3.
     pwm.ChangeDutyCycle(dc)
-    # sleep(0.1)
+    sleep(0.3)
+    pwm.stop()
+    return angle
 
 
 def calc_pan(self, lat, lng):
@@ -57,8 +59,8 @@ async def home(req):
 
 @app.route('/ptz/<pan>/<tilt>/<zoom>', methods=['GET'])
 async def ptz(req, pan, tilt, zoom):
-    pwm = set_servo_angle(GPIO, servos['pan'], float(pan))
-    pwm = set_servo_angle(GPIO, servos['tilt'], float(tilt))
+    pan = set_servo_angle(GPIO, servos['pan'], float(pan))
+    tilt = set_servo_angle(GPIO, servos['tilt'], float(tilt))
     return json({
         'success': True,
         'pan': pan,
