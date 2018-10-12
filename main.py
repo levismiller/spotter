@@ -10,6 +10,17 @@ GPIO.setwarnings(False)
 pan = 13
 tilt = 11
 
+servos = {
+    'pan': {
+        'pin': 13,
+        'range': [4, 11]
+    },
+    'tilt': {
+        'pin': 11,
+        'range': [3, 6]
+    }
+}
+
 GPIO.setup(tilt, GPIO.OUT)
 GPIO.setup(pan, GPIO.OUT)
 
@@ -18,7 +29,7 @@ app.static('/static', './static')
 
 
 def set_servo_angle(GPIO, servo, angle):
-    pwm = GPIO.PWM(servo, 50)
+    pwm = GPIO.PWM(servo['pin'], 50)
     pwm.start(8)
     dc = angle / 18. + 3.
     pwm.ChangeDutyCycle(dc)
@@ -45,8 +56,8 @@ async def home(req):
 
 @app.route('/ptz/<pan>/<tilt>/<zoom>', methods=['GET'])
 async def ptz(req, pan, tilt, zoom):
-    set_servo_angle(GPIO, 13, int(pan))
-    set_servo_angle(GPIO, 11, int(tilt))
+    set_servo_angle(GPIO, servos['pan'], int(pan))
+    set_servo_angle(GPIO, servos['tilt'], int(tilt))
     return json({
         'success': True,
         'pan': pan,
