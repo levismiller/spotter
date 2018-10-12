@@ -27,7 +27,7 @@ GPIO.setup(servos['tilt']['pin'], GPIO.OUT)
 GPIO.setup(servos['pan']['pin'], GPIO.OUT)
 
 
-def set_servo_angle(GPIO, servo, angle):
+async def set_servo_angle(GPIO, servo, angle):
     if angle < servo['range'][0]:
         angle = servo['range'][0]
     if angle > servo['range'][-1]:
@@ -63,8 +63,8 @@ async def home(req):
 async def ptz(req, pan, tilt, zoom):
 
     results = await asyncio.gather(
-        set_servo_angle(GPIO, servos['pan'], float(pan)),
-        set_servo_angle(GPIO, servos['tilt'], float(tilt))
+        await set_servo_angle(GPIO, servos['pan'], float(pan)),
+        await set_servo_angle(GPIO, servos['tilt'], float(tilt))
     )
     print(results)
     return json({
