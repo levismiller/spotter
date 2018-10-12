@@ -1,6 +1,4 @@
 import asyncio
-from time import sleep
-
 import aiohttp
 
 
@@ -12,15 +10,10 @@ async def request(url):
 
 async def main():
     await request('http://192.168.86.32:8000/ptz/30/30/0')
-    await request('http://192.168.86.32:8000/ptz/35/30/0')
-    await request('http://192.168.86.32:8000/ptz/40/30/0')
-    await request('http://192.168.86.32:8000/ptz/45/30/0')
-    await request('http://192.168.86.32:8000/ptz/50/30/0')
-    await request('http://192.168.86.32:8000/ptz/55/30/0')
-    await request('http://192.168.86.32:8000/ptz/60/30/0')
-
-    sleep(1)
+    await request('http://192.168.86.32:8000/ptz/150/30/0')
+    await request('http://192.168.86.32:8000/ptz/150/150/0')
     await request('http://192.168.86.32:8000/ptz/30/30/0')
+
 
 loop = asyncio.get_event_loop()
 try:
