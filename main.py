@@ -94,11 +94,11 @@ async def setup(req):
 
 @app.route('/gotoangle/<pan>/<tilt>', methods=['GET'])
 async def goto_angle(req, pan, tilt):
+    cam = Camera()
+    cam.configure()
+    cameraPosition.camera = cam
+    
     if cameraPosition.camera and cameraPosition.camera.active:
-        cam = Camera()
-        cam.configure()
-        cameraPosition.camera = cam
-
         cameraPosition.set_servo_angle(13, int(pan))
         cameraPosition.set_servo_angle(11, int(tilt))
 
