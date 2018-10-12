@@ -10,8 +10,8 @@ GPIO.setwarnings(False)
 pan = 13
 tilt = 11
 
-GPIO.setup(tilt, GPIO.OUT)  # white => TILT
-GPIO.setup(pan, GPIO.OUT)  # gray ==> PAN
+GPIO.setup(tilt, GPIO.OUT)
+GPIO.setup(pan, GPIO.OUT)
 
 app = Sanic()
 app.static('/static', './static')
@@ -26,15 +26,15 @@ def set_servo_angle(GPIO, servo, angle):
     pwm.stop()
 
 
-def calc_horz_angle(self, lat, lng):
+def calc_pan(self, lat, lng):
     pass
 
 
-def calc_vert_angle(self, distance, alt):
+def calc_tilt(self, distance, alt):
     pass
 
 
-def calc_distance(self, lat, lng, alt):
+def calc_zoom(self, lat, lng, alt):
     pass
 
 
@@ -43,8 +43,8 @@ async def home(req):
     return json({'msg': 'Default'})
 
 
-@app.route('/gotoangle/<pan>/<tilt>/<zoom>', methods=['GET'])
-async def goto_angle(req, pan, tilt, zoom):
+@app.route('/ptz/<pan>/<tilt>/<zoom>', methods=['GET'])
+async def ptz(req, pan, tilt, zoom):
     set_servo_angle(GPIO, 13, int(pan))
     set_servo_angle(GPIO, 11, int(tilt))
     return json({
@@ -55,8 +55,8 @@ async def goto_angle(req, pan, tilt, zoom):
     })
 
 
-@app.route('/goto/<lat>/<lng>/<alt>', methods=['GET'])
-async def goto(req, lat, lng, alt):
+@app.route('/lla/<lat>/<lng>/<alt>', methods=['GET'])
+async def lla(req, lat, lng, alt):
     return json({
         'success': True,
         'lat': lat,
