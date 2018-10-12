@@ -9,10 +9,11 @@ async def request(url):
 
 
 async def main():
-    await request('http://192.168.86.32:8000/ptz/30/30/0')
-    await request('http://192.168.86.32:8000/ptz/150/30/0')
-    await request('http://192.168.86.32:8000/ptz/150/150/0')
-    await request('http://192.168.86.32:8000/ptz/30/30/0')
+    host = '192.168.86.32'
+    await request(f'http://{host}:8000/ptz/30/30/0')
+    await request(f'http://{host}:8000/ptz/150/30/0')
+    await request(f'http://{host}:8000/ptz/150/150/0')
+    await request(f'http://{host}:8000/ptz/30/30/0')
 
 
 loop = asyncio.get_event_loop()
