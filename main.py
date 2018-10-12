@@ -31,7 +31,8 @@ def set_servo_angle(servo, angle):
         return servo['range'][0]
     if dc > servo['range'][-1]:
         return servo['range'][-1]
-    pwm.ChangeDutyCycle(dc)
+    print(dc)
+    # pwm.ChangeDutyCycle(dc)
     sleep(0.3)
     pwm.stop()
 
